@@ -1,0 +1,13 @@
+.dark {
+    color: #ffffffde;
+    background-color: #242424;
+    color-scheme: light dark;
+    transition:  2.5s cubic-bezier(.25,1,30,1);
+  }
+  .light{
+    color: #242424;
+    background-color:#ffffffde ;
+    color-scheme: light dark;
+    transition:  2.5s cubic-bezier(.25,1,30,1);
+  }
+  
