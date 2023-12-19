@@ -3,14 +3,13 @@ import { MdNightlightRound } from "react-icons/md";
 import { CiLight } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-// import { useContext } from 'react'
+
 import { useStateContext } from "../StateContext.jsx";
 
 function Navbar() {
   const [darkMode, setDarkMode] = useState(true);
 
   const { totalQuantities } = useStateContext();
-  // const productQuantity = cart.getProductQuantity(product._id)
 
   useEffect(() => {
     if (darkMode) {

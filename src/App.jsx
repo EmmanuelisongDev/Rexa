@@ -22,7 +22,7 @@ function App() {
         description,
       }`
       );
-      console.log("Sanity API Response:", data);
+
       setProduct(data);
       setIsLoading(false);
     } catch (error) {

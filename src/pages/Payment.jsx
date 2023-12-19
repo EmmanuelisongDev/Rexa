@@ -56,7 +56,6 @@ const Payment = () => {
     }
 
     setLoading(true);
-    console.log("Payment process started...");
   };
 
   return (

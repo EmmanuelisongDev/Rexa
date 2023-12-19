@@ -87,7 +87,6 @@ function Cart() {
             <div className="w-full mt-4 ">
               <Link to="/payment">
                 <button className=" bg-white  text-black py-2 rounded-sm w-full">
-                  {/* <PaystackButton {...componentProps} /> */}
                   Buy Now
                 </button>
               </Link>
