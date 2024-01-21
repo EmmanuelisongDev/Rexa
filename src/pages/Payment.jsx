@@ -1,10 +1,14 @@
 import { PaystackButton } from "react-paystack";
-import { useStateContext } from "../StateContext";
+
+import { useSelector } from "react-redux";
 import { useState } from "react";
 
 const Payment = () => {
-  const { totalPrice } = useStateContext();
-  const amount = totalPrice;
+  const cartItems = useSelector((state) => state.cart.items);
+  const totalPriceOfCart = cartItems
+    .reduce((acc, cur) => acc + cur.totalPrice, 0)
+    .toFixed(2);
+  const amount = totalPriceOfCart;
 
   const publicKey = import.meta.env.VITE_PAYSTACK_KEY;
 
@@ -17,6 +21,15 @@ const Payment = () => {
     setEmail("");
     setName("");
     setPhone("");
+  };
+
+  const handleFormSubmit = () => {
+    if (!email || !name || !phone) {
+      alert("Please fill in all the required fields.");
+      return;
+    }
+
+    setLoading(true);
   };
 
   const componentProps = {
@@ -49,39 +62,30 @@ const Payment = () => {
     },
   };
 
-  const handlePayment = () => {
-    if (!email || !name || !phone) {
-      alert("Please fill in all the required fields.");
-      return;
-    }
-
-    setLoading(true);
-  };
-
   return (
     <div>
-      <div className=" border  w-[85%] ">
-        <div className="flex flex-col  m-10     ">
-          <form className="flex flex-col gap-5  ">
-            <label>Name</label>
+      <div className="border w-[85%]">
+        <div className="flex flex-col m-10">
+          <form className="flex flex-col gap-5">
+            <label htmlFor="name">Name</label>
             <input
-              className=" text-white  p-3"
+              className="text-white p-3"
               type="text"
               value={name}
               id="name"
               onChange={(e) => setName(e.target.value)}
             />
-            <label>Email</label>
+            <label htmlFor="email">Email</label>
             <input
-              className=" text-white  p-3"
+              className="text-white p-3"
               type="text"
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <label>Phone</label>
+            <label htmlFor="phone">Phone</label>
             <input
-              className=" text-white p-3"
+              className="text-white p-3"
               value={phone}
               type="text"
               id="phone"
@@ -89,11 +93,14 @@ const Payment = () => {
             />
           </form>
 
-          <PaystackButton
-            onClick={() => handlePayment()}
-            className=" mt-8  bg-green-500  py-2 rounded-sm w-full"
-            {...componentProps}
-          />
+          {email && name && phone && (
+            <PaystackButton
+              className="mt-8 bg-green-500 py-2 rounded-sm w-full"
+              {...componentProps}
+            />
+          )}
+
+          {loading && <div className="text-center">Loading...</div>}
         </div>
       </div>
     </div>

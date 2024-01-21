@@ -3,13 +3,11 @@ import { MdNightlightRound } from "react-icons/md";
 import { CiLight } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-
-import { useStateContext } from "../StateContext.jsx";
+import { useSelector } from "react-redux";
 
 function Navbar() {
   const [darkMode, setDarkMode] = useState(true);
-
-  const { totalQuantities } = useStateContext();
+  const cartQuantity = useSelector((state) => state.cart.totalQuantity);
 
   useEffect(() => {
     if (darkMode) {
@@ -29,7 +27,7 @@ function Navbar() {
         <div className="flex items-center gap-5">
           <Link className="flex gap-1 items-center cursor-pointer" to={"/cart"}>
             <BsFillCartFill />
-            <span>{totalQuantities}</span>
+            <span>{cartQuantity}</span>
           </Link>
 
           <div

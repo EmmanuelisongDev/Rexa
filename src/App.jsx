@@ -38,10 +38,7 @@ function App() {
     <div className="">
       <Navbar />
       <Routes>
-        <Route
-          path="/"
-          element={<Home product={product} isLoading={isLoading} />}
-        />
+        <Route path="/" element={<Home product={product} />} />
         <Route path="/product/:slug" element={<Product />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/payment" element={<Payment />} />
