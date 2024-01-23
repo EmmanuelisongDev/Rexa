@@ -6,7 +6,7 @@ function Navbar() {
   const cartQuantity = useSelector((state) => state.cart.totalQuantity);
 
   return (
-    <div className=" mb-[100px] fixed z-50 top-0 left-0 w-full px-4 py-4  ">
+    <div className=" text-white  mb-[100px] fixed z-[100] top-0 left-0 w-full px-4 py-4  ">
       <nav className="flex items-center justify-between ">
         <h1>logIn</h1>
 

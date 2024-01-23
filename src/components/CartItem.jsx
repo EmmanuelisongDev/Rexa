@@ -32,7 +32,7 @@ function CartItem(props) {
 
   return (
     <>
-      <div className="flex justify-between items-center border-b-[0.5px] border-t-[0.5px] w-[100%] py-8  ">
+      <div className="flex text-black justify-between items-center border-b-[0.5px] border-t-[0.5px] w-[100%] py-8  ">
         <div className="flex gap-3">
           <img className="w-[20%] object-cover" src={urlFor(image)} alt="" />
           <div className="text-sm">

@@ -40,8 +40,12 @@ const cartSlice = createSlice({
     },
     deleteItemFromCart(state, action) {
       const id = action.payload;
-      state.totalQuantity--;
-      state.items = state.items.filter((item) => item.id !== id);
+      const deletedItem = state.items.find((item) => item.id === id);
+
+      if (deletedItem) {
+        state.totalQuantity -= deletedItem.quantity;
+        state.items = state.items.filter((item) => item.id !== id);
+      }
     },
   },
 });

@@ -1,24 +1,41 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Client from "../client.js";
+import { useDispatch, useSelector } from "react-redux";
+import { cartActions } from "../store/cart-slice.js";
 import imageUrlBuilder from "@sanity/image-url";
-import { useStateContext } from "../StateContext";
+const builder = imageUrlBuilder(Client);
+
+const urlFor = (source) => builder.image(source);
 
 function Product() {
-  const builder = imageUrlBuilder(Client);
-
-  const urlFor = (source) => builder.image(source);
-
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.items);
   const [single, setSingle] = useState();
   const [imageIndex, setImageIndex] = useState(0);
   const { slug } = useParams();
+  const addItemHandler = () => {
+    dispatch(
+      cartActions.addItemToCart({
+        id: single._id,
+        title: single.title,
+        price: single.price,
+        image: single.image[0],
+        slug: single.slug,
+      })
+    );
+  };
+  const findQuantity =
+    cartItems.find((item) => item.id === single?._id)?.quantity || 0;
+  const removeItemHandler = () => {
+    dispatch(cartActions.removeItemFromCart(single._id));
+  };
 
-  const { decQty, incQty, qty, onAdd } = useStateContext();
-
-  const fetchSingleProduct = async () => {
-    try {
-      const data = await Client.fetch(
-        `*[_type == "product" && slug.current == "${slug}"][0]{
+  useEffect(() => {
+    const fetchSingleProduct = async () => {
+      try {
+        const data = await Client.fetch(
+          `*[_type == "product" && slug.current == "${slug}"][0]{
         _id,
         slug,
         title,
@@ -26,22 +43,21 @@ function Product() {
         price,
         description,
         }`
-      );
-      setSingle(data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+        );
+        setSingle(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchSingleProduct();
+  }, [slug]);
+
   const handleThumbnailClick = (index) => {
     setImageIndex(index);
   };
 
-  useEffect(() => {
-    fetchSingleProduct();
-  }, [slug]);
-
   return (
-    <div className="flex flex-col md:flex-row w-full gap-5 mb-52">
+    <div className="flex flex-col md:flex-row w-full gap-5 mb-52 text-black">
       {single && (
         <>
           <div>
@@ -53,10 +69,11 @@ function Product() {
               {single.image.map((images, index) => (
                 <>
                   <img
+                    key={index}
                     onClick={() => handleThumbnailClick(index)}
                     className=" h-32 w-32 object-cover "
                     src={urlFor(images)}
-                    alt=""
+                    alt={slug}
                   />
                 </>
               ))}
@@ -73,15 +90,17 @@ function Product() {
               className="grid grid-flow-col justify-center gap-9 
               my-6 items-center "
             >
-              <button onClick={decQty} className=" font-extrabold ">
+              <button onClick={removeItemHandler} className=" font-extrabold ">
                 -
               </button>
-              <span>{qty}</span>
-              <button onClick={incQty}>+</button>
+
+              <span>{findQuantity}</span>
+
+              <button onClick={addItemHandler}>+</button>
             </div>
 
             <button
-              onClick={() => onAdd(single, qty)}
+              onClick={addItemHandler}
               className="bg-blue-500 hover:bg-blue-700 w-full rounded-sm p-6 text-xl "
             >
               Add to Cart

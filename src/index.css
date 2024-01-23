@@ -6,10 +6,6 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  
-
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -17,21 +13,14 @@
   -webkit-text-size-adjust: 100%;
 }
 
-
 body {
-  color: #ffffffde;
-  background-color: #242424;
+  color: #f000;
+  background-color: #fff;
   color-scheme: light dark;
   transition:  2.5s cubic-bezier(.25,1,30,1);
+  margin: 0 auto;
 }
 
-/* body .light{
-  color: #242424;
-  background-color:rgba(255, 255, 255, 0.87) ;
-  color-scheme: light dark;
-} */
-
 h1 {
-
   line-height: 1.1;
 } 

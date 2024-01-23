@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import CartItem from "../components/CartItem.jsx";
+import CartItem from "./CartItem.jsx";
 import PaystackPop from "@paystack/inline-js";
 
 function Cart() {
   const cartItems = useSelector((state) => state.cart.items);
+
   const totalQuantity = useSelector((state) => state.cart.totalQuantity);
   const totalPriceOfCart = cartItems.reduce(
     (acc, cur) => acc + cur.totalPrice,
@@ -41,7 +42,7 @@ function Cart() {
   }
 
   return (
-    <div>
+    <div className=" text-black">
       <header>
         <h1 className="text-2xl font-bold">Cart</h1>
         <h1>{`${totalQuantity} items`}</h1>
@@ -86,14 +87,12 @@ function Cart() {
             </div>
 
             <div className="w-full mt-4 ">
-              {/* <Link to="/payment"> */}
               <button
                 onClick={PayW}
                 className=" bg-white  text-black py-2 rounded-sm w-full"
               >
                 Buy Now
               </button>
-              {/* </Link> */}
             </div>
           </div>
         )}

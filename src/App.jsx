@@ -1,8 +1,6 @@
 import { Routes, Route } from "react-router-dom";
-import { Home, Cart, Product, Payment } from "./pages";
-import "./App.css";
-import "./darkmode.css";
-import { Footer, Navbar } from "./components";
+import { Home, Product, Payment } from "./pages";
+import { Footer, Cart, Navbar } from "./components";
 import { useState, useEffect } from "react";
 import Client from "./client.js";
 
