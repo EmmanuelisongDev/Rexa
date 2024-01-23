@@ -1,27 +1,17 @@
 import { BsFillCartFill } from "react-icons/bs";
-import { MdNightlightRound } from "react-icons/md";
-import { CiLight } from "react-icons/ci";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 function Navbar() {
-  const [darkMode, setDarkMode] = useState(true);
   const cartQuantity = useSelector((state) => state.cart.totalQuantity);
 
-  useEffect(() => {
-    if (darkMode) {
-      document.body.classList.remove("light");
-    } else {
-      document.body.classList.add("light");
-    }
-  });
-
   return (
-    <div className=" mb-[100px] ">
+    <div className=" mb-[100px] fixed z-50 top-0 left-0 w-full px-4 py-4  ">
       <nav className="flex items-center justify-between ">
+        <h1>logIn</h1>
+
         <Link to={"/"}>
-          <label className="font-black cursor-pointer">REXA</label>
+          <label className=" font-semibold cursor-pointer">RX STUDIO</label>
         </Link>
 
         <div className="flex items-center gap-5">
@@ -29,13 +19,6 @@ function Navbar() {
             <BsFillCartFill />
             <span>{cartQuantity}</span>
           </Link>
-
-          <div
-            className=" cursor-pointer"
-            onClick={() => setDarkMode(!darkMode)}
-          >
-            {darkMode ? <MdNightlightRound /> : <CiLight />}
-          </div>
         </div>
       </nav>
     </div>
