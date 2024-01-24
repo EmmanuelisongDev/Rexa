@@ -1,49 +1,27 @@
-import { Routes, Route } from "react-router-dom";
-import { Home, Product, Payment } from "./pages";
-import { Footer, Cart, Navbar } from "./components";
-import { useState, useEffect } from "react";
-import Client from "./client.js";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Home, Product } from "./pages";
+import { Cart } from "./components";
+import Layout from "./pages/Layout.jsx";
+import { fetchProduct } from "./pages/Home.jsx";
+import ErrorPage from "./pages/ErrorPage.jsx";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    errorElement: <ErrorPage />,
+    children: [
+      { index: true, element: <Home />, loader: fetchProduct },
+      {
+        path: "product/:slug",
+        element: <Product />,
+      },
+      { path: "cart", element: <Cart /> },
+    ],
+  },
+]);
 
 function App() {
-  const [product, setProduct] = useState();
-  const [isLoading, setIsLoading] = useState(true);
-
-  const fetchProduct = async () => {
-    try {
-      const data = await Client.fetch(
-        `*[_type == 'product']{
-        _id,
-        slug,
-        title,
-        image,
-        price,
-        description,
-      }`
-      );
-
-      setProduct(data);
-      setIsLoading(false);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchProduct();
-  }, []);
-
-  return (
-    <div className="">
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home product={product} />} />
-        <Route path="/product/:slug" element={<Product />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/payment" element={<Payment />} />
-      </Routes>
-      <Footer />
-    </div>
-  );
+  return <RouterProvider router={router} />;
 }
-
 export default App;

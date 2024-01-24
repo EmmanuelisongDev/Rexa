@@ -25,7 +25,7 @@ function ProductItem(props) {
   return (
     <>
       <div key={id} className="text-black">
-        <Link to={`/product/${slug}`}>
+        <Link to={`product/${slug}`}>
           <img
             className="rounded-sm w-full h-[30vh] object-cover"
             src={urlFor(image)}

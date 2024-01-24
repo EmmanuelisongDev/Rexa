@@ -1,7 +1,9 @@
 import Hero from "../components/Hero.jsx";
 import ProductItem from "../components/ProductItem.jsx";
-
-function Home({ product }) {
+import Client from "../client.js";
+import { useLoaderData } from "react-router-dom";
+function Home() {
+  const product = useLoaderData();
   return (
     <>
       <Hero />
@@ -25,3 +27,23 @@ function Home({ product }) {
 }
 
 export default Home;
+
+export async function fetchProduct() {
+  try {
+    const data = await Client.fetch(
+      `*[_type == 'product']{
+      _id,
+      slug,
+      title,
+      image,
+      price,
+      description,
+    }`
+    );
+
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}

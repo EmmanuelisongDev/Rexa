@@ -4,6 +4,7 @@ import Client from "../client.js";
 import { useDispatch, useSelector } from "react-redux";
 import { cartActions } from "../store/cart-slice.js";
 import imageUrlBuilder from "@sanity/image-url";
+
 const builder = imageUrlBuilder(Client);
 
 const urlFor = (source) => builder.image(source);
@@ -57,7 +58,7 @@ function Product() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row w-full gap-5 mb-52 text-black">
+    <div className="flex h-screen  flex-col md:flex-row w-full gap-5 my-72 text-black">
       {single && (
         <>
           <div>
@@ -67,15 +68,13 @@ function Product() {
 
             <div className="flex gap-2 mt-5">
               {single.image.map((images, index) => (
-                <>
-                  <img
-                    key={index}
-                    onClick={() => handleThumbnailClick(index)}
-                    className=" h-32 w-32 object-cover "
-                    src={urlFor(images)}
-                    alt={slug}
-                  />
-                </>
+                <img
+                  key={index}
+                  onClick={() => handleThumbnailClick(index)}
+                  className=" h-32 w-32 object-cover "
+                  src={urlFor(images)}
+                  alt={slug}
+                />
               ))}
             </div>
           </div>
