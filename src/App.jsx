@@ -4,6 +4,7 @@ import { Cart } from "./components";
 import Layout from "./pages/Layout.jsx";
 import { fetchProduct } from "./pages/Home.jsx";
 import ErrorPage from "./pages/ErrorPage.jsx";
+import { fetchSingleProduct } from "./pages/Product.jsx";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,7 @@ const router = createBrowserRouter([
       {
         path: "product/:slug",
         element: <Product />,
+        loader: fetchSingleProduct,
       },
       { path: "cart", element: <Cart /> },
     ],

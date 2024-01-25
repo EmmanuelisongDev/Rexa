@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { cartActions } from "../store/cart-slice";
+import { cartActions } from "../store/cart-slice.js";
 import { Link } from "react-router-dom";
 import imageUrlBuilder from "@sanity/image-url";
 import Client from "../client.js";
@@ -24,10 +24,11 @@ function ProductItem(props) {
   };
   return (
     <>
-      <div key={id} className="text-black">
-        <Link to={`product/${slug}`}>
+      <div className="text-black ">
+        <Link to={`product/${slug}`} className=" overflow-hidden w-full   ">
           <img
-            className="rounded-sm w-full h-[30vh] object-cover"
+            className="rounded-sm w-full h-[30vh]  object-cover hover:-translate-y-2 hover:rotate-2 transition
+            ease-in-out  duration-500 "
             src={urlFor(image)}
             alt={slug}
           />

@@ -1,5 +1,5 @@
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useParams, useLoaderData } from "react-router-dom";
+import { useState } from "react";
 import Client from "../client.js";
 import { useDispatch, useSelector } from "react-redux";
 import { cartActions } from "../store/cart-slice.js";
@@ -12,7 +12,7 @@ const urlFor = (source) => builder.image(source);
 function Product() {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items);
-  const [single, setSingle] = useState();
+  const single = useLoaderData();
   const [imageIndex, setImageIndex] = useState(0);
   const { slug } = useParams();
   const addItemHandler = () => {
@@ -32,33 +32,12 @@ function Product() {
     dispatch(cartActions.removeItemFromCart(single._id));
   };
 
-  useEffect(() => {
-    const fetchSingleProduct = async () => {
-      try {
-        const data = await Client.fetch(
-          `*[_type == "product" && slug.current == "${slug}"][0]{
-        _id,
-        slug,
-        title,
-        image,
-        price,
-        description,
-        }`
-        );
-        setSingle(data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchSingleProduct();
-  }, [slug]);
-
   const handleThumbnailClick = (index) => {
     setImageIndex(index);
   };
 
   return (
-    <div className="flex h-screen  flex-col md:flex-row w-full gap-5 my-72 text-black">
+    <div className="flex h-screen px-[10%]  flex-col md:flex-row w-full gap-5 my-52 text-black">
       {single && (
         <>
           <div>
@@ -112,3 +91,22 @@ function Product() {
 }
 
 export default Product;
+
+export const fetchSingleProduct = async ({ request, params }) => {
+  const slug = params.slug;
+  try {
+    const data = await Client.fetch(
+      `*[_type == "product" && slug.current == "${slug}"][0]{
+    _id,
+    slug,
+    title,
+    image,
+    price,
+    description,
+    }`
+    );
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};

@@ -7,7 +7,10 @@ function Home() {
   return (
     <>
       <Hero />
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <h1 className="text-black px-[5%] flex mt-9 text-2xl md:text-6xl">
+        Products
+      </h1>
+      <div className="grid grid-cols-1 px-[5%] py-9 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {product &&
           product.map((item) => (
             <>
