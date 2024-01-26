@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import CartItem from "./CartItem.jsx";
-import PaystackPop from "@paystack/inline-js";
-
-function Cart() {
+import axios from "axios";
+import { loadStripe } from "@stripe/stripe-js";
+function Cart({ onShow }) {
   const cartItems = useSelector((state) => state.cart.items);
 
   const totalQuantity = useSelector((state) => state.cart.totalQuantity);
@@ -12,48 +12,45 @@ function Cart() {
     0
   );
   const amount = totalPriceOfCart;
+  const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
-  const publicKey = import.meta.env.VITE_PAYSTACK_KEY;
-
-  function PayW() {
-    const paystack = new PaystackPop();
-    paystack.newTransaction({
-      key: publicKey,
-      email: "emmisongdev@gmail.com",
-      amount: amount,
-      backgroundColor: "rgba(0, 0, 0, 0)",
-      ref: "" + Math.floor(Math.random() * 1000000000 + 1),
-      metadata: {
-        custom_fields: [
-          {
-            display_name: "Mobile Number",
-            variable_name: "mobile_number",
-            value: "+2348012345678",
+  async function handleCheckout() {
+    const lineItems = cartItems.map((item) => {
+      return {
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: item.name,
           },
-        ],
-      },
-      onSuccess: (transaction) => {
-        console.log(transaction);
-      },
-      onCancel: () => {
-        console.log("cancel");
-      },
+          unit_amount: amount,
+        },
+        quantity: totalQuantity,
+      };
     });
+    const { data } = await axios.post("http://localhost:5000/checkout", {
+      lineItems,
+    });
+    const stripe = await stripePromise;
+    await stripe.redirectToCheckout({ sessionId: data.id });
   }
 
   return (
-    <div className=" text-black">
+    <div
+      className={`bg-white md:mr-6 mt-12 rounded-md pt-6  overflow-hidden overflow-y-auto scrollbar-thumb-bg-888 scrollbar-thumb-radius-4 scrollbar-track-bg-eee ${
+        onShow ? "block transition-all ease-in-out duration-200" : " scale-[0]"
+      }  transition-all ease-in-out duration-200 z-50 max-h-[80vh] text-black fixed shadow-2xl md:w-[40%] top-0 right-0  px-7`}
+    >
       <header>
-        <h1 className="text-2xl font-bold">Cart</h1>
+        <h1 className="md:text-2xl font-bold">Cart</h1>
         <h1>{`${totalQuantity} items`}</h1>
       </header>
 
-      <section className="my-20 flex flex-col  justify-center ">
+      <section className="my-20 flex flex-col justify-center ">
         {cartItems.length < 1 && (
           <>
-            <p className="text-2xl  font-extrabold  "> No Items In Cart</p>
+            <p className="md:text-2xl  font-extrabold  "> No Items In Cart</p>
             <Link className="mt-4" to="/">
-              <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded-sm hover:bg-blue-700">
+              <button className="bg-blue-500 text-white font-bold py-2 px-4 text-xs md:text-base rounded-sm hover:bg-blue-700">
                 Continue Shopping
               </button>
             </Link>
@@ -77,7 +74,7 @@ function Cart() {
 
         {cartItems.length >= 1 && (
           <div className="mt-20 bg-[#000] text-white p-5 rounded-sm">
-            <h1 className="text-2xl ">Order Summary</h1>
+            <h1 className="md:text-2xl ">Order Summary</h1>
 
             <div>
               <div className="flex my-2 justify-between">
@@ -88,10 +85,10 @@ function Cart() {
 
             <div className="w-full mt-4 ">
               <button
-                onClick={PayW}
+                onClick={handleCheckout}
                 className=" bg-white  text-black py-2 rounded-sm w-full"
               >
-                Buy Now
+                Check Out
               </button>
             </div>
           </div>

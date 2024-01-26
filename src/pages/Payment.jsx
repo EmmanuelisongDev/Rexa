@@ -1,110 +1,94 @@
-import { PaystackButton } from "react-paystack";
+import React, { useState } from "react";
+import {
+  PaymentElement,
+  Elements,
+  useStripe,
+  useElements,
+} from "@stripe/react-stripe-js";
 
-import { useSelector } from "react-redux";
-import { useState } from "react";
+export const CheckoutForm = () => {
+  const stripe = useStripe();
+  const elements = useElements();
 
-const Payment = () => {
-  const cartItems = useSelector((state) => state.cart.items);
-  const totalPriceOfCart = cartItems
-    .reduce((acc, cur) => acc + cur.totalPrice, 0)
-    .toFixed(2);
-  const amount = totalPriceOfCart;
+  const [errorMessage, setErrorMessage] = useState("");
+  const [emailInput, setEmailInput] = useState("");
 
-  const publicKey = import.meta.env.VITE_PAYSTACK_KEY;
+  const backendUrl = import.meta.env.VITE_STRIPE_PK_AIRCODE_URL;
 
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [loading, setLoading] = useState(false);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-  const resetForm = () => {
-    setEmail("");
-    setName("");
-    setPhone("");
-  };
-
-  const handleFormSubmit = () => {
-    if (!email || !name || !phone) {
-      alert("Please fill in all the required fields.");
+    if (elements == null || stripe == null) {
       return;
     }
 
-    setLoading(true);
-  };
+    // Trigger form validation and wallet collection
+    const { error: submitError } = await elements.submit();
+    if (submitError?.message) {
+      // Show error to your customer
+      setErrorMessage(submitError.message);
+      return;
+    }
 
-  const componentProps = {
-    email,
-    amount,
-    metadata: {
-      name,
-      phone,
-    },
-    publicKey,
-    text: "Pay with PayStack",
-    onSuccess: ({ reference }) => {
-      setLoading(false);
-      alert(
-        `Your purchase was successful! Transaction reference: ${reference}`
-      );
-      resetForm();
-    },
-    onError: (error) => {
-      setLoading(false);
-      alert(`Payment failed. Error: ${error.message}`);
-    },
-    onClose: () => {
-      setLoading(false);
-      alert("Wait! You need this oil, don't go!!!!");
-    },
-    onCancel: () => {
-      setLoading(false);
-      alert("Wait!");
-    },
+    const price = 12;
+
+    // Create the PaymentIntent and obtain clientSecret from your server endpoint
+    const res = await fetch(backendUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        currency: "usd",
+        email: emailInput,
+        amount: price * 100,
+        paymentMethodType: "card",
+      }),
+    });
+
+    const { client_secret: clientSecret } = await res.json();
+
+    const { error } = await stripe.confirmPayment({
+      //`Elements` instance that was used to create the Payment Element
+      elements,
+      clientSecret,
+      confirmParams: {
+        return_url: `${window.location.origin}/success`,
+      },
+    });
+
+    if (error) {
+      // This point will only be reached if there is an immediate error when
+      // confirming the payment. Show error to your customer (for example, payment
+      // details incomplete)
+      setErrorMessage(error.message);
+    } else {
+      // Your customer will be redirected to your `return_url`. For some payment
+      // methods like iDEAL, your customer will be redirected to an intermediate
+      // site first to authorize the payment, then redirected to the `return_url`.
+    }
   };
 
   return (
-    <div>
-      <div className="border w-[85%]">
-        <div className="flex flex-col m-10">
-          <form className="flex flex-col gap-5">
-            <label htmlFor="name">Name</label>
-            <input
-              className="text-white p-3"
-              type="text"
-              value={name}
-              id="name"
-              onChange={(e) => setName(e.target.value)}
-            />
-            <label htmlFor="email">Email</label>
-            <input
-              className="text-white p-3"
-              type="text"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <label htmlFor="phone">Phone</label>
-            <input
-              className="text-white p-3"
-              value={phone}
-              type="text"
-              id="phone"
-              onChange={(e) => setPhone(e.target.value)}
-            />
-          </form>
-
-          {email && name && phone && (
-            <PaystackButton
-              className="mt-8 bg-green-500 py-2 rounded-sm w-full"
-              {...componentProps}
-            />
-          )}
-
-          {loading && <div className="text-center">Loading...</div>}
+    <form onSubmit={handleSubmit} className="px-4">
+      <div className="mb-3">
+        <label htmlFor="email-input">Email</label>
+        <div>
+          <input
+            value={emailInput}
+            onChange={(e) => setEmailInput(e.target.value)}
+            type="email"
+            id="email-input"
+            placeholder="johndoe@gmail.com"
+          />
         </div>
       </div>
-    </div>
+      <PaymentElement />
+      <button type="submit" disabled={!stripe || !elements}>
+        Pay
+      </button>
+      {/* Show error message to your customers */}
+      {errorMessage && <div>{errorMessage}</div>}
+    </form>
   );
 };
-
-export default Payment;

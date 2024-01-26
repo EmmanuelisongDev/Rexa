@@ -12,6 +12,11 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
+html{
+  scroll-behavior: smooth;
+  transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+  transition-duration: 5ms;
+}
 
 body {
   color: #f000;
@@ -21,6 +26,40 @@ body {
   margin: 0 auto;
 }
 
-h1 {
-  line-height: 1.1;
-} 
+
+
+html::-webkit-scrollbar {
+  width: 6px; /* Set the width of the scrollbar */
+}
+
+html::-webkit-scrollbar-thumb {
+  mix-blend-mode: difference;
+  background-color: #797979; /* Set the color of the thumb (the moving part) */
+  border-radius: 4px; /* Set the border-radius to round the corners of the thumb */
+}
+
+html::-webkit-scrollbar-track {
+  background-color: #ffffff; /* Set the color of the track (the non-moving part) */
+}
+
+@layer components {
+  /* Custom scrollbar width class */
+  .scrollbar-w-8::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  /* Custom scrollbar thumb color class */
+  .scrollbar-thumb-bg-888::-webkit-scrollbar-thumb {
+    background-color: #888;
+  }
+
+  /* Custom scrollbar thumb radius class */
+  .scrollbar-thumb-radius-4::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+  }
+
+  /* Custom scrollbar track color class */
+  .scrollbar-track-bg-eee::-webkit-scrollbar-track {
+    background-color: #eee;
+  }
+}

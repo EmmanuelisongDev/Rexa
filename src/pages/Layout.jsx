@@ -5,7 +5,7 @@ import { Footer, Navbar } from "../components";
 export default function Layout() {
   const navigate = useNavigation();
   return (
-    <>
+    <div className=" scroll-smooth">
       <Navbar />
       <main>
         {navigate === "loading" ? (
@@ -15,6 +15,6 @@ export default function Layout() {
         )}
       </main>
       <Footer />
-    </>
+    </div>
   );
 }

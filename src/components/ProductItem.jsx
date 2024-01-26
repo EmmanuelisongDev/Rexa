@@ -24,10 +24,10 @@ function ProductItem(props) {
   };
   return (
     <>
-      <div className="text-black ">
+      <div id="shop" className="text-black ">
         <Link to={`product/${slug}`} className=" overflow-hidden w-full   ">
           <img
-            className="rounded-sm w-full h-[30vh]  object-cover hover:-translate-y-2 hover:rotate-2 transition
+            className="rounded-sm w-full h-[30vh]  object-cover hover:shadow-xl hover:-translate-y-2  transition
             ease-in-out  duration-500 "
             src={urlFor(image)}
             alt={slug}

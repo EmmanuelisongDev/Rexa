@@ -37,7 +37,7 @@ function Product() {
   };
 
   return (
-    <div className="flex h-screen px-[10%]  flex-col md:flex-row w-full gap-5 my-52 text-black">
+    <div className="flex h-screen px-[10%]  flex-col md:flex-row w-full gap-5 mt-36 text-black">
       {single && (
         <>
           <div>
@@ -58,7 +58,7 @@ function Product() {
             </div>
           </div>
 
-          <div className="md:w-1/2">
+          <div className="md:w-1/2 ">
             <h1 className="text-4xl font-bold ">{single.title}</h1>
             <h3 className="text-2xl mb-10">N{single.price}</h3>
 
@@ -79,7 +79,7 @@ function Product() {
 
             <button
               onClick={addItemHandler}
-              className="bg-blue-500 hover:bg-blue-700 w-full rounded-sm p-6 text-xl "
+              className="bg-blue-500 text-white font-extrabold hover:bg-blue-700 w-full rounded-sm p-6 text-xl "
             >
               Add to Cart
             </button>
