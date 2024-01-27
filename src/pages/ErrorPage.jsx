@@ -1,7 +1,9 @@
 export default function ErrorPage() {
   return (
     <>
-      <h1>This page is Erroring</h1>
+      <div className="w-full h-full">
+        <h1>Oops Something Went Wrong</h1>
+      </div>
     </>
   );
 }
