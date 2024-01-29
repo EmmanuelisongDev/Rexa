@@ -3,6 +3,7 @@ import { cartActions } from "../store/cart-slice.js";
 import { Link } from "react-router-dom";
 import imageUrlBuilder from "@sanity/image-url";
 import Client from "../client.js";
+import toast, { Toaster } from "react-hot-toast";
 
 const builder = imageUrlBuilder(Client);
 
@@ -21,6 +22,7 @@ function ProductItem(props) {
         image,
       })
     );
+    toast.success(`${title} added to cart`);
   };
   return (
     <>
@@ -40,6 +42,7 @@ function ProductItem(props) {
         <span className="cursor-pointer" onClick={addToCartHandler}>
           +
         </span>
+        <Toaster />
       </div>
     </>
   );

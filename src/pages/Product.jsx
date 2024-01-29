@@ -92,7 +92,7 @@ function Product() {
 
 export default Product;
 
-export const fetchSingleProduct = async ({ request, params }) => {
+export const fetchSingleProduct = async ({ params }) => {
   const slug = params.slug;
   try {
     const data = await Client.fetch(

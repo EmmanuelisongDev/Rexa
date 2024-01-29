@@ -4,19 +4,22 @@ import { BiUpArrow, BiDownArrow } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 import imageUrlBuilder from "@sanity/image-url";
 import Client from "../client.js";
+import toast, { Toaster } from "react-hot-toast";
 
 const builder = imageUrlBuilder(Client);
 const urlFor = (source) => builder.image(source);
 
-function CartItem(props) {
+function CartItem({ item: { title, quantity, total, price, id, image } }) {
   const dispatch = useDispatch();
-  const { title, quantity, total, price, id, image } = props.item;
 
   const removeItemHandler = () => {
     dispatch(cartActions.removeItemFromCart(id));
+    toast.error(`${title} removed from cart`);
   };
+
   const deleteItemHandler = () => {
     dispatch(cartActions.deleteItemFromCart(id));
+    toast.error(`${title} deleted from cart`);
   };
 
   const addItemHandler = () => {
@@ -28,6 +31,7 @@ function CartItem(props) {
         image,
       })
     );
+    toast.success(`${title} added to cart`);
   };
 
   return (
@@ -54,6 +58,7 @@ function CartItem(props) {
           <AiFillDelete onClick={deleteItemHandler} />
         </div>
       </div>
+      <Toaster />
     </>
   );
 }
