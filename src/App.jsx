@@ -4,6 +4,7 @@ import Layout from "./pages/Layout.jsx";
 import { fetchProduct } from "./pages/Home.jsx";
 import ErrorPage from "./pages/ErrorPage.jsx";
 import { fetchSingleProduct } from "./pages/Product.jsx";
+import CheckoutForm from "./pages/CheckOutForm.jsx";
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,7 @@ const router = createBrowserRouter([
       { index: true, element: <Home />, loader: fetchProduct },
       { path: "login", element: <LogIn /> },
       { path: "signup", element: <SignUp /> },
+      { path: "checkoutform", element: <CheckoutForm /> },
 
       {
         path: "product/:slug",

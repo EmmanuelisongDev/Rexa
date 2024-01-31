@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { uiActions } from "../store/ui-slice.js";
 import CartItem from "./CartItem.jsx";
-import { PaystackHookExample } from "../payStack.jsx";
 
 function Cart({ onShow }) {
   const cartItems = useSelector((state) => state.cart.items);
@@ -69,7 +68,11 @@ function Cart({ onShow }) {
             </div>
 
             <div className="w-full mt-4 ">
-              <PaystackHookExample />
+              <Link onClick={handleShowHideCart} to="checkoutform">
+                <button className="text-black hover:bg-black border hover:text-white w-full  text-bold py-3 rounded-sm  bg-white">
+                  Checkout
+                </button>
+              </Link>
             </div>
           </div>
         )}

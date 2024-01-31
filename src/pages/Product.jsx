@@ -79,7 +79,7 @@ function Product() {
 
             <button
               onClick={addItemHandler}
-              className="bg-blue-500 text-white font-extrabold hover:bg-blue-700 w-full rounded-sm p-6 text-xl "
+              className="bg-black text-white font-extrabold hover:bg-white hover:text-black border-2 w-full rounded-sm p-6 text-xl "
             >
               Add to Cart
             </button>
