@@ -1,10 +1,9 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Home, LogIn, Product, SignUp } from "./pages";
+import { Home, LogIn, Product, SignUp, CheckoutForm } from "./pages";
 import Layout from "./pages/Layout.jsx";
 import { fetchProduct } from "./pages/Home.jsx";
 import ErrorPage from "./pages/ErrorPage.jsx";
 import { fetchSingleProduct } from "./pages/Product.jsx";
-import CheckoutForm from "./pages/CheckOutForm.jsx";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { sendCartData, fetchCartData } from "./store/cart-actions";
