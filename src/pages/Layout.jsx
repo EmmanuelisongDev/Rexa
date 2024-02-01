@@ -3,7 +3,7 @@ import { Footer, Navbar } from "../components";
 
 export default function Layout() {
   return (
-    <div className="scroll-smooth">
+    <div>
       <Navbar />
       <main>
         <Outlet />

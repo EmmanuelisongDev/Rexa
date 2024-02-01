@@ -1,5 +1,5 @@
 export default {
-  apiKey: "AIzaSyA4V6SQzRyWeZVMNR3uZOAjC7aw_pJAXOI",
+  apiKey: import.meta.env.VITE_FIREBASE_KEY,
   authDomain: "rexa-536b7.firebaseapp.com",
   projectId: "rexa-536b7",
   storageBucket: "rexa-536b7.appspot.com",

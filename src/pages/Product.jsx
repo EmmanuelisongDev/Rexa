@@ -4,7 +4,7 @@ import Client from "../client.js";
 import { useDispatch, useSelector } from "react-redux";
 import { cartActions } from "../store/cart-slice.js";
 import imageUrlBuilder from "@sanity/image-url";
-
+import toast, { Toaster } from "react-hot-toast";
 const builder = imageUrlBuilder(Client);
 
 const urlFor = (source) => builder.image(source);
@@ -25,11 +25,13 @@ function Product() {
         slug: single.slug,
       })
     );
+    toast.success(`${single.title} added to cart`);
   };
   const findQuantity =
     cartItems.find((item) => item.id === single?._id)?.quantity || 0;
   const removeItemHandler = () => {
     dispatch(cartActions.removeItemFromCart(single._id));
+    toast.error(`${single.title} removed from cart`);
   };
 
   const handleThumbnailClick = (index) => {
@@ -37,7 +39,7 @@ function Product() {
   };
 
   return (
-    <div className="flex h-screen px-[10%]  flex-col md:flex-row w-full gap-5 mt-36 text-black">
+    <div className="flex px-[10%]  flex-col md:flex-row w-full gap-5 mt-36 text-black">
       {single && (
         <>
           <div>

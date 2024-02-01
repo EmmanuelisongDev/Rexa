@@ -24,10 +24,21 @@ function ProductItem(props) {
     );
     toast.success(`${title} added to cart`);
   };
+
+  function scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }
   return (
     <>
       <div id="shop" className="text-black ">
-        <Link to={`product/${slug}`} className=" overflow-hidden w-full   ">
+        <Link
+          onClick={scrollToTop}
+          to={`product/${slug}`}
+          className=" overflow-hidden w-full   "
+        >
           <img
             className="rounded-sm w-full h-[30vh]  object-cover hover:shadow-xl hover:-translate-y-2  transition
             ease-in-out  duration-500 "

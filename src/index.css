@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+*{
+  scroll-behavior: smooth;
+  /* scroll-padding: 10rem; */
+
+}
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -11,11 +16,6 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-}
-html{
-  scroll-behavior: smooth;
-  transition: cubic-bezier(0.075, 0.82, 0.165, 1);
-  transition-duration: 5ms;
 }
 body {
   color: #f000;

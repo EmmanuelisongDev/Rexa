@@ -21,9 +21,7 @@ export const PaystackHookExample = ({ email }) => {
   const paystackStyle = {
     backgroundColor: "transparent",
   };
-  const onClose = () => {
-    console.log("closed");
-  };
+  const onClose = () => {};
   const initializePayment = usePaystackPayment(config);
 
   return (

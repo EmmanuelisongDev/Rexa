@@ -18,16 +18,13 @@ const LogIn = () => {
   };
 
   const handleSubmit = (values) => {
-    console.log("Login Successful:", values.email, values.password);
-
     signInWithEmailAndPassword(auth, values.email, values.password)
-      .then((user) => {
-        console.log(user);
+      .then(() => {
         navigate("/");
         toast.success("Logged in successfully");
       })
       .catch((error) => {
-        console.log(error);
+        throw new Error(error);
       });
   };
 
@@ -38,7 +35,8 @@ const LogIn = () => {
         validationSchema={LoginSchema}
         onSubmit={handleSubmit}
       >
-        <Form className="max-w-md mx-auto mt-60 p-8 bg-white rounded shadow-md">
+        <Form className="md:max-w-md w-[80%] mx-auto mt-60 mb-80  p-8 bg-white rounded shadow-md">
+          <h1 className="text-black font-bold text-3xl mb-4">Login</h1>
           <div className="mb-4">
             <label
               htmlFor="email"
@@ -84,16 +82,16 @@ const LogIn = () => {
           <div>
             <button
               type="submit"
-              className="bg-blue-500 text-white p-2 rounded hover:bg-blue-700"
+              className="bg-black text-white font-bold py-2 px-4 text-xs md:text-base rounded-sm hover:bg-white hover:text-black border border-black w-full mb-8"
             >
               Login
             </button>
           </div>
           <div>
             <h1 className="text-black">
-              Don`&apos;`t have an account?
+              Don&apos;t have an account?
               <span>
-                <Link to="/signup" className="text-blue-500">
+                <Link to="/signup" className="text-black font-black">
                   Create an account
                 </Link>
               </span>

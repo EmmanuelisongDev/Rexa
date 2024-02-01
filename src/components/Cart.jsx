@@ -5,13 +5,14 @@ import CartItem from "./CartItem.jsx";
 
 function Cart({ onShow }) {
   const cartItems = useSelector((state) => state.cart.items);
-  const dispatch = useDispatch();
-  const totalQuantity = useSelector((state) => state.cart.totalQuantity);
+
   const totalPriceOfCart = cartItems.reduce(
     (acc, cur) => acc + cur.totalPrice,
     0
   );
-  // const amount = totalPriceOfCart;
+
+  const dispatch = useDispatch();
+  const totalQuantity = useSelector((state) => state.cart.totalQuantity);
   function handleShowHideCart() {
     dispatch(uiActions.toggle());
   }
@@ -33,7 +34,7 @@ function Cart({ onShow }) {
             <Link className="mt-4" to="/">
               <button
                 onClick={handleShowHideCart}
-                className="bg-blue-500 text-white font-bold py-2 px-4 text-xs md:text-base rounded-sm hover:bg-blue-700"
+                className="bg-black text-white font-bold py-2 px-4 text-xs md:text-base rounded-sm hover:bg-white hover:text-black border border-black"
               >
                 Continue Shopping
               </button>
@@ -43,17 +44,18 @@ function Cart({ onShow }) {
 
         {cartItems.length >= 1 &&
           cartItems.map((item) => (
-            <CartItem
-              key={item._id}
-              item={{
-                id: item.id,
-                title: item.name,
-                quantity: item.quantity,
-                total: item.totalPrice,
-                price: item.price,
-                image: item.image,
-              }}
-            />
+            <div key={item._id}>
+              <CartItem
+                item={{
+                  id: item.id,
+                  title: item.name,
+                  quantity: item.quantity,
+                  total: item.totalPrice,
+                  price: item.price,
+                  image: item.image,
+                }}
+              />
+            </div>
           ))}
 
         {cartItems.length >= 1 && (

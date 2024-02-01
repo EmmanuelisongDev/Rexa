@@ -22,7 +22,7 @@ function Hero() {
           Explore and discover amazing content.
         </p>
         <HashLink to="#shop">
-          <button className="border  rounded-sm p-2 text-3xl font-bold mt-5 hover:bg-orange-600 hover:text-black transition duration-300 ease-out ">
+          <button className="border  rounded-sm p-2 text-3xl font-bold mt-5 hover:bg-white hover:text-black transition duration-300 ease-out ">
             Shop Now
           </button>
         </HashLink>

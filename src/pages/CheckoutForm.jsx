@@ -17,7 +17,10 @@ const CheckoutForm = () => {
   });
 
   return (
-    <form onSubmit={formik.handleSubmit} className="max-w-md  mx-auto mt-48 ">
+    <form
+      onSubmit={formik.handleSubmit}
+      className="md:max-w-md w-[80%] mb-48  mx-auto mt-48 "
+    >
       <h1>CheckOut </h1>
 
       <div className="mb-4">

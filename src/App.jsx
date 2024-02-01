@@ -5,7 +5,9 @@ import { fetchProduct } from "./pages/Home.jsx";
 import ErrorPage from "./pages/ErrorPage.jsx";
 import { fetchSingleProduct } from "./pages/Product.jsx";
 import CheckoutForm from "./pages/CheckOutForm.jsx";
-
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { sendCartData, fetchCartData } from "./store/cart-actions";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -25,7 +27,26 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+let isInitial = true;
+
 function App() {
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
+
+  useEffect(() => {
+    dispatch(fetchCartData());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isInitial) {
+      isInitial = false;
+      return;
+    }
+
+    if (cart.changed) {
+      dispatch(sendCartData(cart));
+    }
+  }, [cart, dispatch]);
   return <RouterProvider router={router} />;
 }
 export default App;

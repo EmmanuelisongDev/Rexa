@@ -10,8 +10,8 @@ import toast, { Toaster } from "react-hot-toast";
 function Navbar() {
   const [user, setUser] = useState(null);
   const dispatch = useDispatch();
-  const cartQuantity = useSelector((state) => state.cart.totalQuantity);
   const showCart = useSelector((state) => state.ui.cartIsVisible);
+  const cartQuantity = useSelector((state) => state.cart.totalQuantity);
 
   useEffect(() => {
     const auth = getAuth();
@@ -26,9 +26,9 @@ function Navbar() {
 
   async function handleSignOut() {
     const auth = getAuth();
+    toast.success("Signed Out");
     try {
       await signOut(auth);
-      toast.dismiss("Signed Out");
     } catch (error) {
       console.log(error);
     }
